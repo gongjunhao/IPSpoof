@@ -32,38 +32,42 @@ public class App {
 					String randomIp = randomIp();
 					String buyNowURL = getBuyNowURL(srcUrl, randomIp);
 					System.out.println(buyNowURL);
-					Jsoup.connect(buyNowURL)
-							.header("X-Forwarded-For", randomIp)
-							.header("X-Real-IP", randomIp)
-							.header("Referer", buyNowURL)
-							.userAgent(agent)
-							.timeout(6000)
-							.get();
-					
-					Map<String, String> data = new HashMap<String, String>();
-					Map<String, String> splitQuery = splitQuery(new URL(buyNowURL));
-					for (Map.Entry<String, String> keyvalue : splitQuery.entrySet()) {
-						String key = keyvalue.getKey();
-						String value = keyvalue.getValue();
-						if (key.equals("channel") || key.equals("param")) {
-							data.put(key, value);
+					if(buyNowURL != null){
+						Jsoup.connect(buyNowURL)
+						.header("X-Forwarded-For", randomIp)
+						.header("X-Real-IP", randomIp)
+						.header("Referer", buyNowURL)
+						.userAgent(agent)
+						.timeout(6000)
+						.get();
+						
+						Map<String, String> data = new HashMap<String, String>();
+						Map<String, String> splitQuery = splitQuery(new URL(buyNowURL));
+						for (Map.Entry<String, String> keyvalue : splitQuery.entrySet()) {
+							String key = keyvalue.getKey();
+							String value = keyvalue.getValue();
+							if (key.equals("channel") || key.equals("param")) {
+								data.put(key, value);
+							}
 						}
+						
+						Jsoup.connect(backUrl)
+						.header("Accept", "*/*")
+						.header("X-Requested-With", "XMLHttpRequest")
+						.ignoreContentType(true)
+						.header("X-Forwarded-For", randomIp)
+						.header("X-Real-IP", randomIp)
+						.header("Referer", buyNowURL)
+						.data("channel", data.get("channel"))
+						.data("param", data.get("param"))
+						.userAgent(agent)
+						.timeout(6000)
+						.post();
+						
+						System.out.println(String.format("IP %s 完成%d次, 点击购买地址：%s", randomIp, i, buyNowURL));
+					} else {
+						System.out.println(String.format("【失败】IP %s 完成%d次, 点击购买地址：%s", randomIp, i, buyNowURL));
 					}
-
-					Jsoup.connect(backUrl)
-							.header("Accept", "*/*")
-							.header("X-Requested-With", "XMLHttpRequest")
-							.ignoreContentType(true)
-							.header("X-Forwarded-For", randomIp)
-							.header("X-Real-IP", randomIp)
-							.header("Referer", buyNowURL)
-							.data("channel", data.get("channel"))
-							.data("param", data.get("param"))
-							.userAgent(agent)
-							.timeout(6000)
-							.post();
-
-					System.out.println(String.format("IP %s 完成%d次, 点击购买地址：%s", randomIp, i, buyNowURL));
 				}
 			}
 		} catch (Exception e) {
