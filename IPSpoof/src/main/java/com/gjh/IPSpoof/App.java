@@ -37,6 +37,7 @@ public class App {
 							.header("X-Real-IP", randomIp)
 							.header("Referer", buyNowURL)
 							.userAgent(agent)
+							.timeout(6000)
 							.get();
 					
 					Map<String, String> data = new HashMap<String, String>();
@@ -59,6 +60,7 @@ public class App {
 							.data("channel", data.get("channel"))
 							.data("param", data.get("param"))
 							.userAgent(agent)
+							.timeout(6000)
 							.post();
 
 					System.out.println(String.format("IP %s 完成%d次, 点击购买地址：%s", randomIp, i, buyNowURL));
@@ -74,6 +76,7 @@ public class App {
 			Document doc = Jsoup
 					.connect(url)
 					.userAgent(agent)
+					.timeout(6000)
 					.header("X-Forwarded-For", randomIp).header("X-Real-IP", randomIp).get();
 			Elements buttons = doc.select(".goodsfx-btn a");
 			for (Element button : buttons) {
