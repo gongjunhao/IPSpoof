@@ -28,7 +28,7 @@ public class App {
 			scanner = new Scanner(System.in);
 			if (scanner.hasNextLine()) {
 				String srcUrl = scanner.nextLine();
-				for (int i = 0; i < 1; i++) {
+				for (int i = 0; i < 100; i++) {
 					String randomIp = randomIp();
 					String buyNowURL = getBuyNowURL(srcUrl, randomIp);
 					System.out.println(buyNowURL);
