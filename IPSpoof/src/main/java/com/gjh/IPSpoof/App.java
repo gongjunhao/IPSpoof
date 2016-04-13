@@ -37,7 +37,7 @@ public class App {
 				String srcUrl = scanner.nextLine();
 				for (int i = 0; i < ips.size(); i++) {
 					String agent =  "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36";
-					String url = "http://task.qbao.com/user/activity/toNewGoods/4EB8A02C63D942C1B17B6E6BCA2DB6F6/387D3BB54D5E329599576E9632408D0B/6631C8FEF3E42A6B7557D3E37CA867E8/CD8AD4DD63B254A50A6C4219F41C4B63";
+					String url = "http://t.cn/RqAQiLC";
 					String randomIp = ips.get(i);
 					String buyNowURL = getBuyNowURL(url, randomIp);
 					System.out.println(buyNowURL);
